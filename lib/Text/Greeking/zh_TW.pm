@@ -217,11 +217,9 @@ C<bug-text-greeking-zh_tw@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Lukhnos D. Liu C<< <lukhnos@gmail.com> >>
-
-Kang-min Liu  C<< <gugod@gugod.org> >>
+Lukhnos D. Liu C<< <lukhnos@gmail.com> >>, Kang-min Liu  C<< <gugod@gugod.org> >>
 
 
 =head1 LICENCE AND COPYRIGHT
