@@ -1,4 +1,5 @@
 package Text::Greeking::zh_TW;
+
 use warnings;
 use strict;
 use v5.8.0;
@@ -6,7 +7,7 @@ use utf8;
 
 use List::Util qw(shuffle);
 
-our $VERSION = '0.0.3';
+our $VERSION = '0.0.4';
 
 sub new {
     my $class =shift;
@@ -19,7 +20,6 @@ sub init {
     $_[0]->paragraphs(2,8);
     $_[0]->sentences(2,8);
     $_[0]->words(5,15);
-    $_[0]->{SOURCE} = "";
     $_[0];
 }
 
@@ -36,7 +36,7 @@ sub generate {
     for (my $x=0; $x < $pcount; $x++) {
         my $scount = int(rand($sentmax-$sentmin+1)+$sentmin);
         for (my $y=0; $y < $scount; $y++) {
-            $out .= $self->random_sentence();
+            $out .= random_sentence();
         }
         $out .= "\n\n";
     }
@@ -44,18 +44,16 @@ sub generate {
 }
 
 sub _generate {
-    my $self = shift;
-    my $template = $self->corpus();
-    $template =~ s{ \p{Han} }{ $self->random_word() }xegs;
+    my $template = corpus();
+    $template =~ s{ \p{Han} }{ random_word() }xegs;
     return $template;
 }
 
 {
     my @han = ();
     sub random_word {
-        my $self = shift;
         unless (@han) {
-            my @char = split "", $self->corpus();
+            my @char = split "", corpus();
             @han = shuffle grep /\p{Han}/, @char;
         }
         shift @han
@@ -63,24 +61,21 @@ sub _generate {
 
     my @text = ();
     sub random_paragraph {
-        my $self = shift;
         unless (@text) {
-            @text = shuffle split /\n+/, $self->_generate();
+            @text = shuffle split /\n+/, _generate();
         }
         shift @text;
     }
 
     my @sentence = ();
     sub random_sentence {
-        my $self = shift;
         unless (@sentence) {
-            @sentence = split /。|？/, $self->random_paragraph()
+            @sentence = split /。|？/, random_paragraph()
         }
-        (shift(@sentence) || $self->random_sentence() ) . $self->random_punct();
+        (shift(@sentence) || random_sentence() ) . random_punct();
     }
 
     sub random_punct {
-        my $self = shift;
         my $r = int(rand(20));
         if ($r == 1) {
             "！"
@@ -95,26 +90,24 @@ sub _generate {
     }
 }
 
+my $corpus;
 sub add_source {
-    my $self = shift;
-    my $text = shift;
-
-    $self->{SOURCE} .= "\n\n$text";
-}
-
-sub corpus {
-    my $self = shift;
-    if ( $self->{SOURCE} ) {
-        return $self->{SOURCE};
+    my ($self, $source) = @_;
+    if (ref $source) {
+        warn "err - source sould be a scalar.";
+        return;
     }
-    else {
-        return $self->default_corpus;
-    }
+
+    $corpus .= $source;
+    return $self;
 }
 
 # lukhnos.org
-sub default_corpus {
-    return <<CORPUS;
+sub corpus {
+    if ($corpus) {
+        return $corpus;
+    } else {
+        return <<CORPUS;
 
 她終於有勇氣重新開箱，拾出當年所封存的那些記憶。只不過那也是最後一次，那些記憶在開箱之後，不再散發香水的味道；所拾出的東西，也就直接進了垃圾袋。
 
@@ -149,6 +142,7 @@ sub default_corpus {
 第二天的清醒也因此變得如此值得期待了起來。她開始想獨自說說那隱沒帶下的無垠的事。
 
 CORPUS
+    }
 }
 
 1; # Magic true value required at end of module
@@ -160,13 +154,14 @@ Text::Greeking::zh_TW - A module for generating meaningless Chinese text that cr
 
 =head1 VERSION
 
-This document describes Text::Greeking::zh_TW version 0.0.1
+This document describes Text::Greeking::zh_TW version 0.0.4
 
 =head1 SYNOPSIS
 
   my $g = Text::Greeking::zh_TW->new;
   $g->paragraphs(3,15); # min of 1 paragraph and a max of 2
   $g->sentences(1,10);  # min of 2 sentences per paragraph and a max of 5
+  $g->add_source($scalar); # use text yourself, not requisite
   print $g->generate;
 
 =head1 DESCRIPTION
@@ -193,9 +188,11 @@ Sets the minimum and maximum number of sentences to generate per paragraph. Defa
 
 Returns a body of random text generated from a randomly selected source using the minimum and maximum values set by paragraphs, sentences, and words minimum and maximum values. If generate is called without any sources a standard Lorem Ipsum block is used added to the sources and then used for processing the random text.
 
-=item add_source( $text )
+=item add_source($scalar)
 
-This method let module user to add their own $text as greeking corpus.
+Add text of yourself as corpus. Return instance itself, so we can add source serially.
+
+    $g->add_source($source_one)->add_source($source_two);
 
 =back
 

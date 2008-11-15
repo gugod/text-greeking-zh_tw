@@ -17,4 +17,5 @@ my $text = $g->generate;
 
 ok(length($text) > 0);
 
-print $text;
+diag($text);
+
