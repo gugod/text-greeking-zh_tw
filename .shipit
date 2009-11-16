@@ -1,6 +1,5 @@
-steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, UploadCPAN
-
-svk.tagpattern = //mirror/handlino-pub/perl5/tags/Text-Greeking-zh_TW-%v
+steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, UploadCPAN, Twitter
 
 CheckChangeLog.files = Changes
-
+twitter.config = /Users/gugod/.twitterrc
+git.tagpattern = release-%v

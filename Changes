@@ -1,5 +1,8 @@
 Revision history for Text-Greeking-zh_TW
 
+1.0 2009-11-16T23:55:50+0800
+- Just some maintaince updates
+
 0.0.4 Fri Jul 13 21:34:49 CST 2007
 - Add an add_source() method to let module user give their own greeking
 corpus. shelling++
@@ -12,4 +15,3 @@ corpus. shelling++
 
 0.0.1  Fri Jun 29 21:14:03 2007
        Initial release.
-
