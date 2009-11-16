@@ -1,13 +1,11 @@
 package Text::Greeking::zh_TW;
-
-use warnings;
-use strict;
-use v5.8.0;
+use common::sense 2.02;
+use 5.008;
 use utf8;
 
 use List::Util qw(shuffle);
 
-our $VERSION = '0.0.4';
+our $VERSION = '1.0';
 
 sub new {
     my $class =shift;
@@ -152,10 +150,6 @@ __END__
 
 Text::Greeking::zh_TW - A module for generating meaningless Chinese text that creates the illusion of the finished document.
 
-=head1 VERSION
-
-This document describes Text::Greeking::zh_TW version 0.0.4
-
 =head1 SYNOPSIS
 
   my $g = Text::Greeking::zh_TW->new;
@@ -224,7 +218,7 @@ Lukhnos D. Liu C<< <lukhnos@gmail.com> >>, Kang-min Liu  C<< <gugod@gugod.org> >
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2007, 2008, Kang-min Liu C<< <gugod@gugod.org> >>, Lukhnos D. Liu C<< <lukhnos@gmail.com> >>. 
+Copyright (c) 2007, 2008, 2009 Kang-min Liu C<< <gugod@gugod.org> >>, Lukhnos D. Liu C<< <lukhnos@gmail.com> >>.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

@@ -1,6 +1,5 @@
-#!/usr/bin/perl
-
-use strict;
+#!/usr/bin/env perl
+use common::sense 2.02;
 use utf8;
 
 use Text::Greeking::zh_TW;
@@ -17,5 +16,4 @@ my $text = $g->generate;
 
 ok(length($text) > 0);
 
-diag($text);
-
+# diag($text);
